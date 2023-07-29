@@ -1,0 +1,324 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Node Fleet",
+    "version": "1.0.0",
+    "title": "Pokt Tool PY",
+    "contact": {
+      "email": "adrian@nodefleet.com"
+    },
+    "license": {
+      "name": "Node Fleet License",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "",
+      "description": "Actual Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Nodes",
+      "description": "Node Management"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/api/v1/nodes/node/{address}/details": {
+      "get": {
+        "tags": [
+          "Nodes"
+        ],
+        "summary": "Retrieve details of a node",
+        "description": "Retrieve details of a node",
+        "operationId": "getNodeDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "Address of the node",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/nodeDetail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/nodes/{address}/rewards": {
+      "get": {
+        "tags": [
+          "Nodes"
+        ],
+        "summary": "Get all claim rewards for a node",
+        "description": "Get all claim rewards for a node",
+        "operationId": "getNodeRewards",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "description": "Node address",
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/nodeReward"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/nodes/{address}/transactions": {
+      "get": {
+        "tags": [
+          "Nodes"
+        ],
+        "summary": "Get all transactions for a node",
+        "description": "Get all claim rewards for a node",
+        "operationId": "getNodeRewards",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "description": "Node address",
+            "required": true
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date",
+            "required": false
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date",
+            "required": false
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Order by",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id.asc",
+                "id.desc",
+                "timestamp.asc",
+                "timestamp.desc"
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit",
+            "required": false
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/transaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Transaction ID."
+          },
+          "height": {
+            "type": "integer",
+            "description": "Block height of the transaction."
+          },
+          "hash": {
+            "type": "string",
+            "description": "Hash of the transaction."
+          },
+          "index": {
+            "type": "integer",
+            "description": "Transaction index."
+          },
+          "result_code": {
+            "type": "integer",
+            "description": "Result code of the transaction."
+          },
+          "signer": {
+            "type": "string",
+            "description": "Signer of the transaction."
+          },
+          "recipient": {
+            "type": "string",
+            "description": "Recipient of the transaction."
+          },
+          "msg_type": {
+            "type": "string",
+            "description": "Type of the message in the transaction."
+          },
+          "fee": {
+            "type": "integer",
+            "description": "Transaction fee."
+          },
+          "memo": {
+            "type": "string",
+            "description": "Memo of the transaction."
+          },
+          "value": {
+            "type": "integer",
+            "description": "Value of the transaction."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the transaction in ISO 8601 format."
+          }
+        },
+        "description": "Transaction details."
+      },
+      "nodeDetail": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Address of the node."
+          },
+          "chains": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/chainDetail"
+            },
+            "description": "List of basic chain details associated with the node."
+          },
+          "jailed": {
+            "type": "boolean",
+            "description": "Flag indicating if the node is jailed."
+          },
+          "output_address": {
+            "type": "string",
+            "description": "Output address of the node."
+          },
+          "public_key": {
+            "type": "string",
+            "description": "Public key of the node."
+          },
+          "service_url": {
+            "type": "string",
+            "description": "Service URL of the node."
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the node."
+          },
+          "tokens": {
+            "type": "number",
+            "description": "Number of tokens associated with the node."
+          },
+          "unstaking_time": {
+            "type": "string",
+            "description": "Unstaking time of the node."
+          }
+        },
+        "description": "Class to handle pokt node detail."
+      },
+      "chainDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the chain."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the chain."
+          }
+        },
+        "description": "Basic chain detail representation."
+      },
+      "nodeReward": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "datetime"
+          },
+          "type": {
+            "type": "string"
+          },
+          "chain": {
+            "type": "object"
+          },
+          "session_height": {
+            "type": "string"
+          },
+          "expire_height": {
+            "type": "string"
+          },
+          "app_pubkey": {
+            "type": "string"
+          },
+          "pokt_per_relay": {
+            "type": "integer"
+          },
+          "is_confirmed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

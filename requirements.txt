@@ -1,0 +1,9 @@
+Flask==2.3.2
+Werkzeug~=2.3.6
+python-dotenv
+validators
+flask-swagger-ui
+Flask-Cors
+alembic~=1.7.7
+requests
+python-dateutil

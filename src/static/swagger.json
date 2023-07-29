@@ -76,6 +76,45 @@
             "in": "path",
             "description": "Node address",
             "required": true
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date",
+            "required": false
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date",
+            "required": false
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Order by",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id.asc",
+                "id.desc",
+                "timestamp.asc",
+                "timestamp.desc"
+              ]
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit",
+            "required": false
           }
         ],
         "responses": {

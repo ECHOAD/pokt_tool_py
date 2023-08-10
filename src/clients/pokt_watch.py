@@ -58,8 +58,9 @@ def get_transactions_by_address(address: str, start_date=None, end_date=None, tr
         transaction_condition = "&and=(msg_type.eq.{transaction_type})".format(transaction_type=transaction_type)
         dynamic_query.append(transaction_condition)
 
-    order_by_condition = "&order={order_by}".format(order_by=order_by)
-    dynamic_query.append(order_by_condition)
+    if order_by:
+        order_by_condition = "&order={order_by}".format(order_by=order_by)
+        dynamic_query.append(order_by_condition)
 
     query = "".join(dynamic_query)
 
